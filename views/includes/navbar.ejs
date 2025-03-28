@@ -1,0 +1,162 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow-sm">
+  <div class="container">
+    <a class="navbar-brand" href="/listings">
+      <i class="fa-regular fa-compass" style="font-size: 1.5rem; color: #007bff;"></i>
+      <span class="ms-2 text-primary font-weight-bold">Explore</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item">
+          <a class="nav-link text-dark" href="/listings">Explore</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" href="/listings/new">Add New Home</a>
+        </li>
+      </ul>
+
+      <!-- Smaller Search Bar (Centered) -->
+      <form class="d-flex mx-auto" action="/search" method="get" style="max-width: 400px; width: 100%;">
+        <input class="form-control me-2 search-input" type="search" placeholder="Search..." aria-label="Search">
+        <button class="btn btn-primary search-btn" type="submit">Search</button>
+      </form>
+
+      <ul class="navbar-nav ms-auto">
+        <% if(!currUser) { %>
+        <li class="nav-item">
+          <a class="nav-link text-dark" href="/signup"><b>Sign Up</b></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" href="/login"><b>Log In</b></a>
+        </li>
+        <% } %>
+        <% if(currUser) { %>
+        <li class="nav-item">
+          <a class="nav-link text-dark" href="/logout"><b>Log Out</b></a>
+        </li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Additional CSS -->
+<style>
+  /* General Navbar Styles */
+  .navbar {
+    padding: 0.5rem 2rem;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e4e4e4;
+    transition: all 0.3s ease;
+  }
+
+  .navbar-brand {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #007bff;
+    text-transform: uppercase;
+  }
+
+  .navbar-brand i {
+    font-size: 2rem;
+  }
+
+  .navbar-toggler {
+    border: none;
+    background-color: transparent;
+  }
+
+  .navbar-toggler-icon {
+    background-color: #007bff;
+  }
+
+  .navbar-nav .nav-item {
+    margin-left: 1rem;
+  }
+
+  .navbar-nav .nav-link {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333333;
+    transition: color 0.3s ease;
+  }
+
+  .navbar-nav .nav-link:hover {
+    color: #007bff;
+  }
+
+  /* Navbar with User Authentication */
+  .navbar-nav.ms-auto .nav-link {
+    font-weight: 600;
+  }
+
+  .navbar-nav .nav-item .nav-link {
+    padding: 0.5rem 1rem;
+    transition: all 0.2s ease;
+  }
+
+  /* Style when toggling for mobile */
+  @media (max-width: 991px) {
+    .navbar-nav {
+      margin-top: 0.5rem;
+    }
+    .navbar-nav .nav-item {
+      margin-left: 0;
+    }
+    .navbar-nav.ms-auto {
+      margin-top: 0.5rem;
+    }
+  }
+
+  /* Add shadow effect */
+  .navbar.shadow-sm {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Smooth hover effect for mobile */
+  .navbar-toggler-icon:hover {
+    background-color: #0056b3;
+  }
+
+  /* Smaller Search Bar Styles */
+  .search-input {
+    border-radius: 25px 0 0 25px; /* Rounded corners on the left */
+    padding-left: 1rem;
+    font-size: 0.875rem; /* Smaller text size */
+    height: 38px; /* Smaller height */
+  }
+
+  .search-btn {
+    border-radius: 0 25px 25px 0; /* Rounded corners on the right */
+    padding: 0.5rem 1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    font-size: 0.875rem; /* Smaller text size */
+    height: 38px; /* Same height as the input field */
+    transition: background-color 0.3s ease;
+  }
+
+  .search-btn:hover {
+    background-color: #0056b3;
+  }
+
+  /* Adjustments for mobile view */
+  @media (max-width: 767px) {
+    .d-flex.mx-auto {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .search-input {
+      width: 80%;
+      margin-bottom: 10px;
+    }
+
+    .search-btn {
+      width: 80%;
+    }
+  }
+</style>

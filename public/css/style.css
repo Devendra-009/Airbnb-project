@@ -1,0 +1,201 @@
+/* Global Styles */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Arial', sans-serif; /* Added a basic font-family for consistency */
+}
+
+.container {
+    flex: 1;
+    padding: 20px; /* Added some padding to the container for breathing space */
+}
+
+/* FontAwesome icon */
+.fa-compass {
+    color: rgb(242, 46, 46);
+    font-size: 2rem;
+}
+
+/* Navigation Link */
+.nav-link {
+    color: #222222 !important;
+    font-weight: bold; /* Added boldness for emphasis */
+}
+
+/* Footer */
+.footer {
+    background: #232a34;
+    padding: 80px 0 50px 0;
+    color: #fff; /* Ensuring text is visible on dark background */
+    text-align: center;
+}
+
+.footer_menu {
+    margin-bottom: 20px;
+}
+
+.footer_menu ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 15px; /* Spacing between footer links */
+}
+
+.footer_menu ul li {
+    display: inline-block;
+}
+
+.footer_menu ul li a {
+    color: #fff;
+    padding: 0 10px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.footer_menu ul li a:hover {
+    color: #554c86;
+}
+
+/* Footer Info Section */
+.foot-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    background-color: #ebebeb;
+    height: auto;
+    padding: 1rem 0 1.5rem;
+}
+
+.foot-info-socials,
+.foot-info-links {
+    width: 100%;
+    text-align: center;
+}
+
+.foot-info-socials i {
+    font-size: 1.25rem;
+    margin: 0.5rem;
+}
+
+.foot-info-links a {
+    text-decoration: none;
+    color: #222222;
+    font-size: 1rem;
+}
+
+.foot-info-links a:hover {
+    text-decoration: underline;
+}
+
+/* Listing Card */
+.listing-card {
+    border: none !important;
+    margin: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for better card visibility */
+    transition: transform 0.3s ease-in-out; /* Added smooth animation on hover */
+}
+
+.listing-card:hover {
+    transform: scale(1.05); /* Slightly enlarge on hover for interactivity */
+}
+
+.row {
+    border: none !important;
+    margin: 0;
+    /* text-align: center; */
+    display: flex;
+    flex-wrap: wrap;
+    /*justify-content: center; */
+    /* gap: 0.5rem; Adding spacing between the cards */
+}
+
+.card-img-top {
+    border-radius: 1rem;
+    width: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease-in-out;
+}
+
+.card-img-overlay {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out; /* Smooth transition for overlay */
+}
+
+.card-img-overlay:hover {
+    opacity: 0.5;
+    background-color: rgba(255, 255, 255, 0.3); /* More subtle background */
+}
+
+/* Card Image hover effect */
+.card:hover .card-img-top {
+    transform: scale(1); /* Slight zoom effect on image hover */
+}
+.show-body{
+  padding: 1rem !important;
+}
+
+/* Listing Link */
+.listing-link {
+    text-decoration: none !important;
+    color: inherit; /* Inherit color from parent to maintain styling */
+}
+
+/* Image section */
+.show-img {
+    height: 50vh;
+    object-fit: cover;
+    width: 100%;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .footer_menu ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .row {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card-img-top {
+        height: 200px; /* Fixed height for smaller screens */
+        object-fit: cover;
+    }
+
+    .listing-card {
+        margin: 1rem 0; /* Adjust margin for smaller screens */
+    }
+
+    .show-img {
+        height: 30vh; /* Adjust image size for small devices */
+    }
+}
+
+@media (max-width: 576px) {
+    .footer {
+        padding: 60px 0 30px 0; /* Reduced padding for small screens */
+    }
+
+    .listing-card {
+        margin: 1rem 0; /* Increased margin for small screens */
+    }
+
+    .row {
+        flex-direction: column;
+    }
+
+    .foot-info {
+        padding: 1rem 0;
+    }
+
+    .fa-compass {
+        font-size: 1.5rem; /* Reduce size of the icon */
+    }
+}

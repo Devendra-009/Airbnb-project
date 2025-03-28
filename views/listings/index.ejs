@@ -1,0 +1,78 @@
+<% layout("layouts/boilerplate.ejs") %>
+
+
+
+<div class="container">
+  <div class="card-container row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 g-4">
+    <% for (let listing of allListings) { %>
+      <a href="/listings/<%= listing._id %>" class="listing-link col">
+        <div class="card listing-card shadow-lg rounded-lg overflow-hidden">
+          <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image" style="object-fit: cover; height: 250px;">
+          <div class="card-body">
+            <h5 class="card-title text-center mb-3"><%= listing.title %></h5>
+            <p class="card-text text-center">
+              <b>&#8377; <%= listing.price.toLocaleString("en-IN") %> / night</b>
+            </p>
+          </div>
+        </div>
+      </a>
+    <% } %>
+  </div>
+</div>
+
+<!-- Additional CSS for styling -->
+<style>
+  /* General styling */
+  .card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .listing-link {
+    text-decoration: none;
+  }
+
+  .listing-card {
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #ffffff;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .listing-card:hover {
+    transform: translateY(-10px);
+  }
+
+  .card-img-top {
+    object-fit: cover;
+    height: 250px;
+  }
+
+  .card-body {
+    padding: 1.25rem;
+  }
+
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .card-text {
+    color: #555;
+    font-size: 1rem;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 767px) {
+    .card-container {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (max-width: 576px) {
+    .card-container {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
