@@ -2,7 +2,7 @@ const Listing = require("../models/listing");
 
 // Display all listings
 module.exports.index = async (req, res) => {
-    const allListings = await Listing.find({});
+    const allListings = await Listing.find({}).sort({ createdAt: -1 }); // ✅ Sorting newest first
     res.render("listings/index.ejs", { allListings });
 };
 
