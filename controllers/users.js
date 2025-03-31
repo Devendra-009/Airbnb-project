@@ -42,3 +42,28 @@ module.exports.signup = async (req, res) => {
       res.redirect("/listings");
     });
   }
+
+
+  module.exports.renderProfile = async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id);
+        if (!user) return res.redirect("/login");
+        res.render("users/profile", { user });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Something went wrong!");
+    }
+};
+
+
+
+module.exports.renderSettings = async (req, res, next) => {
+  try {
+    res.render("users/settings");
+  } catch (error) {
+    next(error); // Pass the error to Express error handler
+  }
+};
+
+
+

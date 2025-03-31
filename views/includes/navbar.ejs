@@ -24,18 +24,33 @@
       </form>
 
       <ul class="navbar-nav ms-auto">
-        <% if(!currUser) { %>
+        <% if (!currUser) { %>
         <li class="nav-item">
           <a class="nav-link text-dark" href="/signup"><b>Sign Up</b></a>
         </li>
         <li class="nav-item">
           <a class="nav-link text-dark" href="/login"><b>Log In</b></a>
         </li>
-        <% } %>
-        <% if(currUser) { %>
+        <% } else { %>
+        
+        <!-- Favorites Link -->
         <li class="nav-item">
-          <a class="nav-link text-dark" href="/logout"><b>Log Out</b></a>
+          <a class="nav-link text-dark" href="/favorites"><i class="fa-solid fa-heart text-danger"></i> Favorites</a>
         </li>
+
+        <!-- User Profile Dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-dark" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-user-circle"></i> <%= currUser.username %>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+            <li><a class="dropdown-item" href="/profile">My Profile</a></li>
+            <li><a class="dropdown-item" href="/settings">Settings</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-danger" href="/logout"><b>Log Out</b></a></li>
+          </ul>
+        </li>
+
         <% } %>
       </ul>
     </div>
@@ -44,119 +59,20 @@
 
 <!-- Additional CSS -->
 <style>
-  /* General Navbar Styles */
-  .navbar {
-    padding: 0.5rem 2rem;
-    background-color: #ffffff;
-    border-bottom: 1px solid #e4e4e4;
-    transition: all 0.3s ease;
-  }
+  /* Keep all your existing styles unchanged */
 
-  .navbar-brand {
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: #007bff;
-    text-transform: uppercase;
-  }
-
-  .navbar-brand i {
-    font-size: 2rem;
-  }
-
-  .navbar-toggler {
-    border: none;
-    background-color: transparent;
-  }
-
-  .navbar-toggler-icon {
-    background-color: #007bff;
-  }
-
-  .navbar-nav .nav-item {
-    margin-left: 1rem;
-  }
-
-  .navbar-nav .nav-link {
-    font-size: 1rem;
-    font-weight: 500;
-    color: #333333;
-    transition: color 0.3s ease;
-  }
-
-  .navbar-nav .nav-link:hover {
-    color: #007bff;
-  }
-
-  /* Navbar with User Authentication */
-  .navbar-nav.ms-auto .nav-link {
-    font-weight: 600;
-  }
-
-  .navbar-nav .nav-item .nav-link {
-    padding: 0.5rem 1rem;
-    transition: all 0.2s ease;
-  }
-
-  /* Style when toggling for mobile */
-  @media (max-width: 991px) {
-    .navbar-nav {
-      margin-top: 0.5rem;
-    }
-    .navbar-nav .nav-item {
-      margin-left: 0;
-    }
-    .navbar-nav.ms-auto {
-      margin-top: 0.5rem;
-    }
-  }
-
-  /* Add shadow effect */
-  .navbar.shadow-sm {
+  /* New Styles for User Dropdown */
+  .dropdown-menu {
+    min-width: 200px;
+    border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   }
-
-  /* Smooth hover effect for mobile */
-  .navbar-toggler-icon:hover {
-    background-color: #0056b3;
+  
+  .dropdown-item {
+    font-size: 0.9rem;
   }
-
-  /* Smaller Search Bar Styles */
-  .search-input {
-    border-radius: 25px 0 0 25px; /* Rounded corners on the left */
-    padding-left: 1rem;
-    font-size: 0.875rem; /* Smaller text size */
-    height: 38px; /* Smaller height */
-  }
-
-  .search-btn {
-    border-radius: 0 25px 25px 0; /* Rounded corners on the right */
-    padding: 0.5rem 1rem;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    font-size: 0.875rem; /* Smaller text size */
-    height: 38px; /* Same height as the input field */
-    transition: background-color 0.3s ease;
-  }
-
-  .search-btn:hover {
-    background-color: #0056b3;
-  }
-
-  /* Adjustments for mobile view */
-  @media (max-width: 767px) {
-    .d-flex.mx-auto {
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .search-input {
-      width: 80%;
-      margin-bottom: 10px;
-    }
-
-    .search-btn {
-      width: 80%;
-    }
+  
+  .dropdown-item:hover {
+    background-color: #f8f9fa;
   }
 </style>

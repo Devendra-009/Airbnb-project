@@ -24,6 +24,7 @@ const User = require("./models/user.js");
 const listingsRouter = require("./routes/listing.js");
 const reviewsRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
+const favoriteRoutes = require("./routes/favorites.js");
 
 main()
   .then(() => {
@@ -83,11 +84,12 @@ passport.deserializeUser(User.deserializeUser());
 
 // Flsh Message Middleware.
 app.use((req, res, next) => {
+  res.locals.currUser = req.user || null;
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
-  res.locals.currUser = req.user;
   next();
 });
+
 
 app.get("/demouser", async (req, res) => {
   let fakeUser = new User({
@@ -103,6 +105,7 @@ app.get("/demouser", async (req, res) => {
   app.use("/listings", listingsRouter);
   app.use("/listings/:id/reviews", reviewsRouter);
   app.use("/",userRouter);
+  app.use("/favorites", favoriteRoutes);
 
   
 

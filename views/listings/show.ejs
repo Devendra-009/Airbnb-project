@@ -21,6 +21,16 @@
               <br />
               <span class="font-weight-bold">Country: </span><%= listing.country %>
             </p>
+
+            <!-- Favorites/Wishlist Section -->
+            <% if(currUser) { %>
+              <% let isFavorited = currUser.favorites.some(fav => fav.equals(listing._id)); %>
+              <form method="POST" action="/listings/<%= listing._id %>/<%= isFavorited ? 'unfavorite' : 'favorite' %>" class="favorite-form">
+                <button class="btn <%= isFavorited ? 'btn-danger' : 'btn-outline-danger' %> w-100">
+                  <%= isFavorited ? 'Remove from Favorites ❤️' : 'Add to Favorites 🤍' %>
+                </button>
+              </form>
+            <% } %>
           </div>
         </div>
 
@@ -63,7 +73,6 @@
             <div class="mb-3">
               <label for="comment" class="form-label">Comments</label>
               <textarea name="review[comment]" id="comment" cols="30" rows="5" class="form-control" required></textarea>
-              <div class="invalid-feedback">Please enter a comment.</div>
             </div>
             <button class="btn btn-success w-100">Submit</button>
           </form>
@@ -95,7 +104,7 @@
     </div>
   </div>
 
-  <!-- Include the necessary CSS styles in your HTML -->
+  <!-- CSS for Styling -->
   <style>
     /* General layout */
     body {
@@ -126,6 +135,21 @@
 
     .reviews-section hr {
       margin-top: 30px;
+    }
+
+    /* Favorites Button */
+    .favorite-form {
+      display: flex;
+      justify-content: center;
+      margin-top: 15px;
+    }
+
+    .btn-danger, .btn-outline-danger {
+      transition: all 0.3s ease-in-out;
+    }
+
+    .btn-danger:hover, .btn-outline-danger:hover {
+      transform: scale(1.05);
     }
 
     /* Review Section */
@@ -181,5 +205,4 @@
       }
     }
   </style>
-
 </body>

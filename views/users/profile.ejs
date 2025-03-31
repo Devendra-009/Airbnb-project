@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .profile-card {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .profile-icon {
+            font-size: 50px;
+            color: #007bff;
+        }
+        .btn-custom {
+            width: 100%;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <% layout("layouts/boilerplate.ejs") %>
+    
+    <div class="container">
+        <div class="profile-card">
+            <i class="fa-solid fa-user-circle profile-icon"></i>
+            <h2>Welcome, <%= user.username %>!</h2>
+            <p><strong>Email:</strong> <%= user.email %></p>
+            <h3>Account created on: <%= user.createdAt?.toDateString() || 'Date not available' %></h3>
+
+            
+            <a href="/settings" class="btn btn-primary btn-custom">Edit Profile</a>
+            <a href="/logout" class="btn btn-danger btn-custom">Log Out</a>
+        </div>
+    </div>
+</body>
+</html>
