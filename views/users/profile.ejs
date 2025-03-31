@@ -19,9 +19,13 @@
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
-        .profile-icon {
-            font-size: 50px;
-            color: #007bff;
+        .profile-picture {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #007bff;
+            margin-bottom: 15px;
         }
         .btn-custom {
             width: 100%;
@@ -34,12 +38,15 @@
     
     <div class="container">
         <div class="profile-card">
-            <i class="fa-solid fa-user-circle profile-icon"></i>
+            <img 
+                src="<%= user.profileImage || '/images/default-avatar.jpg' %>" 
+                alt="Profile Picture" 
+                class="profile-picture"
+            >
             <h2>Welcome, <%= user.username %>!</h2>
             <p><strong>Email:</strong> <%= user.email %></p>
             <h3>Account created on: <%= user.createdAt?.toDateString() || 'Date not available' %></h3>
 
-            
             <a href="/settings" class="btn btn-primary btn-custom">Edit Profile</a>
             <a href="/logout" class="btn btn-danger btn-custom">Log Out</a>
         </div>

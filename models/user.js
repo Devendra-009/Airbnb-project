@@ -10,7 +10,11 @@ const userSchema = new Schema({
     favorites: [{
         type: Schema.Types.ObjectId,
         ref: "Listing" // Reference the Listing model
-    }]
+    }],
+    profileImage: { 
+        type: String, // Field to store the profile image URL
+        required: false // No default value
+    }
 }, { timestamps: true });
 
 userSchema.plugin(passportLocalMongoose);

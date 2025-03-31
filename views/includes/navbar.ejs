@@ -40,8 +40,13 @@
 
         <!-- User Profile Dropdown -->
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle text-dark" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fa-solid fa-user-circle"></i> <%= currUser.username %>
+          <a class="nav-link dropdown-toggle text-dark d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img 
+              src="<%= currUser.profileImage || '/images/default-avatar.jpg' %>" 
+              alt="Profile Picture" 
+              class="profile-image me-2"
+            >
+            <%= currUser.username %>
           </a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
             <li><a class="dropdown-item" href="/profile">My Profile</a></li>
@@ -60,6 +65,15 @@
 <!-- Additional CSS -->
 <style>
   /* Keep all your existing styles unchanged */
+
+  /* Profile Image in Navbar */
+  .profile-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #007bff;
+  }
 
   /* New Styles for User Dropdown */
   .dropdown-menu {
