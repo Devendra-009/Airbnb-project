@@ -2,8 +2,19 @@ const Listing = require("../models/listing");
 
 // Display all listings
 module.exports.index = async (req, res) => {
-    const allListings = await Listing.find({}).sort({ createdAt: -1 }); // ✅ Sorting newest first
-    res.render("listings/index.ejs", { allListings });
+    const page = parseInt(req.query.page) || 1; // Get page number from query or default to 1
+    const limit = 6; // Listings per page
+    const skip = (page - 1) * limit; // Calculate skip value
+
+    const allListings = await Listing.find({})
+        .sort({ createdAt: -1 }) // Sort by newest first
+        .skip(skip)
+        .limit(limit);
+
+    const totalListings = await Listing.countDocuments(); // Total count of listings
+    const totalPages = Math.ceil(totalListings / limit); // Calculate total pages
+
+    res.render("listings/index.ejs", { allListings, totalPages, currentPage: page });
 };
 
 // Render form to create a new listing
