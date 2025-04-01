@@ -3,7 +3,7 @@ const Listing = require("../models/listing");
 // Display all listings
 module.exports.index = async (req, res) => {
     const page = parseInt(req.query.page) || 1; // Get page number from query or default to 1
-    const limit = 6; // Listings per page
+    const limit = 8; // Listings per page
     const skip = (page - 1) * limit; // Calculate skip value
 
     const allListings = await Listing.find({})

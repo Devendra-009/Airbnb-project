@@ -1,6 +1,5 @@
 <% layout("layouts/boilerplate.ejs") %>
 
-
 <div class="container mt-4">
     <h2>My Favorite Listings</h2>
 
@@ -8,7 +7,7 @@
         <p>You have no favorite listings yet.</p>
     <% } else { %>
         <div class="row">
-            <% favoriteListings.forEach(listing => { %>
+            <% favoriteListings.slice().reverse().forEach(listing => { %> 
                 <div class="col-md-4">
                     <div class="card mb-3">
                         <img src="<%= listing.image.url %>" class="card-img-top" alt="<%= listing.title %>">

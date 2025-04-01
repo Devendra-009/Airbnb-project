@@ -3,9 +3,23 @@
 <div class="container">
   <div class="card-container row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 g-4">
     <% for (let listing of allListings) { %>
-      <a href="/listings/<%= listing._id %>" class="listing-link col">
-        <div class="card listing-card shadow-lg rounded-lg overflow-hidden">
-          <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image" style="object-fit: cover; height: 250px;">
+      <div class="col">
+        <div class="card listing-card shadow-lg rounded-lg overflow-hidden position-relative">
+          <!-- Heart Icon for Favorites -->
+          <% if (currUser) { %>
+            <div class="position-absolute top-0 end-0 m-2" style="z-index: 10;">
+              <button class="favorite-btn btn <%= currUser.favorites.includes(listing._id) ? 'btn-danger' : 'btn-outline-danger' %>"
+                      data-listing-id="<%= listing._id %>"
+                      style="border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                <i class="fa-solid fa-heart"></i>
+              </button>
+            </div>
+          <% } %>
+
+          <a href="/listings/<%= listing._id %>" class="listing-link">
+            <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image" style="object-fit: cover; height: 250px;">
+          </a>
+          
           <div class="card-body">
             <h5 class="card-title text-center mb-3"><%= listing.title %></h5>
             <p class="card-text text-center">
@@ -13,10 +27,11 @@
             </p>
           </div>
         </div>
-      </a>
+      </div>
     <% } %>
   </div>
 </div>
+
 
 <!-- Pagination Controls -->
 <div class="pagination-container text-center mt-4">
@@ -34,6 +49,22 @@
 <!-- Additional CSS for styling -->
 <style>
   /* General styling */
+  .container {
+  max-width: 95%;  /* Adjust width as needed */
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+
+.row {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.col {
+  padding-left: 5px !important;
+  padding-right: 5px !important;
+}
+
   .card-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -75,6 +106,20 @@
     font-size: 1rem;
   }
 
+  /* Heart Icon Styling */
+  .favorite-btn {
+    z-index: 10; /* Ensures the button stays on top */
+    pointer-events: auto; /* Ensures it remains clickable */
+  }
+
+  .listing-card:hover {
+    transform: translateY(-10px);
+  }
+
+  .listing-card:hover .favorite-btn {
+    transform: none !important; /* Prevents button from moving */
+  }
+
   /* Pagination styling */
   .pagination-container {
     display: flex;
@@ -114,3 +159,37 @@
     }
   }
 </style>
+
+<!-- JavaScript for AJAX Favorites Toggle -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".favorite-btn").forEach(button => {
+      button.addEventListener("click", function (event) {
+        event.preventDefault();
+        const listingId = this.dataset.listingId;
+        const button = this;
+
+        fetch(`/favorites/${listingId}/toggle`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          credentials: "same-origin"
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            if (data.action === "added") {
+              button.classList.add("btn-danger");
+              button.classList.remove("btn-outline-danger");
+            } else {
+              button.classList.add("btn-outline-danger");
+              button.classList.remove("btn-danger");
+            }
+          }
+        })
+        .catch(error => console.error("Error:", error));
+      });
+    });
+  });
+</script>

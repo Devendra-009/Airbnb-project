@@ -1,12 +1,23 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow-sm">
   <div class="container">
+    
+    <!-- Sidebar Toggle Button -->
+    <% if (currUser) { %>
+      <button class="btn btn-light sidebar-toggle me-3" id="sidebarToggle">
+        <i class="fa-solid fa-bars fa-lg"></i>
+      </button>
+    <% } %>
+
+    <!-- Brand Logo -->
     <a class="navbar-brand" href="/listings">
       <i class="fa-regular fa-compass" style="font-size: 1.5rem; color: #007bff;"></i>
       <span class="ms-2 text-primary font-weight-bold">Explore</span>
     </a>
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <ul class="navbar-nav mx-auto">
         <li class="nav-item">
@@ -17,7 +28,7 @@
         </li>
       </ul>
 
-      <!-- Smaller Search Bar (Centered) -->
+      <!-- Search Bar -->
       <form class="d-flex mx-auto" action="/search" method="get" style="max-width: 400px; width: 100%;">
         <input class="form-control me-2 search-input" type="search" placeholder="Search..." aria-label="Search">
         <button class="btn btn-primary search-btn" type="submit">Search</button>
@@ -25,47 +36,55 @@
 
       <ul class="navbar-nav ms-auto">
         <% if (!currUser) { %>
-        <li class="nav-item">
-          <a class="nav-link text-dark" href="/signup"><b>Sign Up</b></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-dark" href="/login"><b>Log In</b></a>
-        </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark" href="/signup"><b>Sign Up</b></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark" href="/login"><b>Log In</b></a>
+          </li>
         <% } else { %>
-        
-        <!-- Favorites Link -->
-        <li class="nav-item">
-          <a class="nav-link text-dark" href="/favorites"><i class="fa-solid fa-heart text-danger"></i> Favorites</a>
-        </li>
+          <!-- Favorites Link -->
+          <li class="nav-item">
+            <a class="nav-link text-dark" href="/favorites">
+              <i class="fa-solid fa-heart text-danger"></i> Favorites
+            </a>
+          </li>
 
-        <!-- User Profile Dropdown -->
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle text-dark d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <img 
-              src="<%= currUser.profileImage || '/images/default-avatar.jpg' %>" 
-              alt="Profile Picture" 
-              class="profile-image me-2"
-            >
-            <%= currUser.username %>
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-            <li><a class="dropdown-item" href="/profile">My Profile</a></li>
-            <li><a class="dropdown-item" href="/settings">Settings</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item text-danger" href="/logout"><b>Log Out</b></a></li>
-          </ul>
-        </li>
-
+          <!-- User Profile Dropdown -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-dark d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="<%= currUser.profileImage || '/images/default-avatar.jpg' %>" alt="Profile Picture" class="profile-image me-2">
+              <%= currUser.username %>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+              <li><a class="dropdown-item" href="/profile">My Profile</a></li>
+              <li><a class="dropdown-item" href="/settings">Settings</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item text-danger" href="/logout"><b>Log Out</b></a></li>
+            </ul>
+          </li>
         <% } %>
       </ul>
     </div>
   </div>
 </nav>
 
-<!-- Additional CSS -->
-<style>
-  /* Keep all your existing styles unchanged */
+<!-- Sidebar -->
+<div id="sidebar" class="sidebar">
+  <button id="closeSidebar" class="close-btn">&times;</button>
+  <ul class="sidebar-links">
+    <li><a href="/listings"><i class="fa-solid fa-house"></i> Home</a></li>
+    <li><a href="/listings/new"><i class="fa-solid fa-plus-circle"></i> Add Listing</a></li>
+    <li><a href="/favorites"><i class="fa-solid fa-heart"></i> Favorites</a></li>
+    <li><a href="/profile"><i class="fa-solid fa-user"></i> My Profile</a></li>
+    <li><a href="/messages"><i class="fa-solid fa-envelope"></i> Messages</a></li>
+    <li><a href="/bookings"><i class="fa-solid fa-calendar-check"></i> My Bookings</a></li>
+    <li><a href="/logout" class="text-danger"><i class="fa-solid fa-sign-out-alt"></i> Log Out</a></li>
+  </ul>
+</div>
 
+<!-- Sidebar Styles & Navbar Enhancements -->
+<style>
   /* Profile Image in Navbar */
   .profile-image {
     width: 40px;
@@ -75,18 +94,97 @@
     border: 2px solid #007bff;
   }
 
-  /* New Styles for User Dropdown */
-  .dropdown-menu {
-    min-width: 200px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  /* Sidebar Styles */
+  .sidebar {
+    position: fixed;
+    left: -250px;
+    top: 0;
+    height: 100%;
+    width: 250px;
+    background: #343a40;
+    color: white;
+    transition: left 0.3s ease-in-out;
+    padding-top: 20px;
+    z-index: 1050;
   }
-  
-  .dropdown-item {
-    font-size: 0.9rem;
+
+  .sidebar a {
+    display: block;
+    color: white;
+    padding: 12px 20px;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: background 0.3s ease;
   }
-  
-  .dropdown-item:hover {
-    background-color: #f8f9fa;
+
+  .sidebar a:hover {
+    background: #495057;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.5rem;
+    color: white;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  /* Sidebar Button */
+  .sidebar-toggle {
+    background: transparent;
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+  }
+
+  /* Navbar Enhancements */
+  .navbar {
+    transition: all 0.3s ease-in-out;
+  }
+
+  .navbar .nav-link {
+    transition: color 0.3s ease;
+  }
+
+  .navbar .nav-link:hover {
+    color: #007bff;
+  }
+
+  /* Responsive Sidebar */
+  @media (max-width: 768px) {
+    .sidebar {
+      width: 200px;
+    }
+
+    .sidebar a {
+      font-size: 0.9rem;
+    }
   }
 </style>
+
+<!-- Sidebar JavaScript -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const sidebar = document.getElementById("sidebar");
+    const sidebarToggle = document.getElementById("sidebarToggle");
+    const closeSidebar = document.getElementById("closeSidebar");
+
+    sidebarToggle.addEventListener("click", function () {
+      sidebar.style.left = "0";
+    });
+
+    closeSidebar.addEventListener("click", function () {
+      sidebar.style.left = "-250px";
+    });
+
+    // Close sidebar when clicking outside of it
+    document.addEventListener("click", function (event) {
+      if (!sidebar.contains(event.target) && !sidebarToggle.contains(event.target)) {
+        sidebar.style.left = "-250px";
+      }
+    });
+  });
+</script>
