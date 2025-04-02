@@ -71,4 +71,20 @@ router.get("/favorites", isLoggedIn, wrapAsync(async (req, res) => {
     res.render("listings/favorites.ejs", { favoriteListings: user.favorites });
 }));
 
+// Show the booking form for a specific listing
+router.get("/:id/book", async (req, res) => {
+    try {
+        const listing = await Listing.findById(req.params.id);
+        if (!listing) {
+            req.flash("error", "Listing not found");
+            return res.redirect("/listings");
+        }
+        res.render("book", { listing });
+    } catch (err) {
+        console.error(err);
+        req.flash("error", "Something went wrong");
+        res.redirect("/listings");
+    }
+});
+
 module.exports = router;

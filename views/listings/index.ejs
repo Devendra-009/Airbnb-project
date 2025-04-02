@@ -20,18 +20,23 @@
             <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image" style="object-fit: cover; height: 250px;">
           </a>
           
-          <div class="card-body">
-            <h5 class="card-title text-center mb-3"><%= listing.title %></h5>
-            <p class="card-text text-center">
+          <div class="card-body text-center">
+            <h5 class="card-title mb-2"><%= listing.title %></h5>
+            <p class="text-muted">
+              <i class="fa-solid fa-location-dot"></i> <%= listing.location %>
+            </p>
+            <p class="card-text">
               <b>&#8377; <%= listing.price.toLocaleString("en-IN") %> / night</b>
             </p>
+            <a href="/listings/<%= listing._id %>" class="btn btn-primary">View Listing</a>
+
+
           </div>
         </div>
       </div>
     <% } %>
   </div>
 </div>
-
 
 <!-- Pagination Controls -->
 <div class="pagination-container text-center mt-4">
@@ -46,82 +51,29 @@
   <% } %>
 </div>
 
-<!-- Additional CSS for styling -->
 <style>
-  /* General styling */
-  .container {
-  max-width: 95%;  /* Adjust width as needed */
-  padding-left: 10px !important;
-  padding-right: 10px !important;
-}
-
-.row {
-  margin-left: 0 !important;
-  margin-right: 0 !important;
-}
-
-.col {
-  padding-left: 5px !important;
-  padding-right: 5px !important;
-}
-
   .card-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 1.5rem;
   }
 
-  .listing-link {
-    text-decoration: none;
-  }
-
   .listing-card {
     border-radius: 10px;
-    overflow: hidden;
-    background-color: #ffffff;
     transition: transform 0.3s ease-in-out;
   }
 
   .listing-card:hover {
     transform: translateY(-10px);
+    box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.2);
   }
 
-  .card-img-top {
-    object-fit: cover;
-    height: 250px;
-  }
-
-  .card-body {
-    padding: 1.25rem;
-  }
-
-  .card-title {
-    font-size: 1.25rem;
-    font-weight: bold;
-    color: #333;
-  }
-
-  .card-text {
-    color: #555;
-    font-size: 1rem;
-  }
-
-  /* Heart Icon Styling */
   .favorite-btn {
-    z-index: 10; /* Ensures the button stays on top */
-    pointer-events: auto; /* Ensures it remains clickable */
+    transition: background 0.3s ease-in-out;
   }
 
-  .listing-card:hover {
-    transform: translateY(-10px);
-  }
-
-  .listing-card:hover .favorite-btn {
-    transform: none !important; /* Prevents button from moving */
-  }
-
-  /* Pagination styling */
-  .pagination-container {
+/* Pagination styling */
+.pagination-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -146,21 +98,8 @@
     font-size: 1.1rem;
     font-weight: bold;
   }
-
-  /* Responsive adjustments */
-  @media (max-width: 767px) {
-    .card-container {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-  @media (max-width: 576px) {
-    .card-container {
-      grid-template-columns: 1fr;
-    }
-  }
 </style>
 
-<!-- JavaScript for AJAX Favorites Toggle -->
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".favorite-btn").forEach(button => {
@@ -171,9 +110,7 @@
 
         fetch(`/favorites/${listingId}/toggle`, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
+          headers: { "Content-Type": "application/json" },
           credentials: "same-origin"
         })
         .then(response => response.json())

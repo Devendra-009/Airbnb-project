@@ -34,6 +34,32 @@
           </div>
         </div>
 
+        <!-- Book Now Form -->
+        <% if(currUser) { %>
+          <div class="card mt-4">
+            <div class="card-body">
+              <h4>Book This Listing</h4>
+              <form action="/bookings/<%= listing._id %>/book" method="POST">
+                <div class="mb-3">
+                    <label for="checkIn">Check-in Date</label>
+                    <input type="date" id="checkIn" name="checkIn" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="checkOut">Check-out Date</label>
+                    <input type="date" id="checkOut" name="checkOut" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="guests">Number of Guests</label>
+                    <input type="number" id="guests" name="guests" class="form-control" required min="1">
+                </div>
+                <button type="submit" class="btn btn-success">Book Now</button>
+            </form>
+            
+            
+            </div>
+          </div>
+        <% } %>
+
         <!-- Edit/Delete Buttons (For Owner) -->
         <% if(currUser && currUser._id.equals(listing.owner._id)) { %>
         <div class="row mb-4">
@@ -103,106 +129,4 @@
       </div>
     </div>
   </div>
-
-  <!-- CSS for Styling -->
-  <style>
-    /* General layout */
-    body {
-      background-color: #fefefe;
-      font-family: 'Arial', sans-serif;
-    }
-
-    .listing-title {
-      font-size: 2rem;
-      color: #343a40;
-      font-weight: bold;
-    }
-
-    .listing-card {
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      margin-bottom: 20px;
-    }
-
-    .card-img-top {
-      border-radius: 10px;
-      object-fit: cover;
-    }
-
-    .card-body {
-      padding: 20px;
-    }
-
-    .reviews-section hr {
-      margin-top: 30px;
-    }
-
-    /* Favorites Button */
-    .favorite-form {
-      display: flex;
-      justify-content: center;
-      margin-top: 15px;
-    }
-
-    .btn-danger, .btn-outline-danger {
-      transition: all 0.3s ease-in-out;
-    }
-
-    .btn-danger:hover, .btn-outline-danger:hover {
-      transform: scale(1.05);
-    }
-
-    /* Review Section */
-    .review-card {
-      border-radius: 15px;
-      padding: 20px;
-      background-color: #fff;
-    }
-
-    /* Buttons */
-    .btn {
-      transition: all 0.3s ease;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-    }
-
-    .btn-primary {
-      background-color: #007bff;
-      color: #fff;
-    }
-
-    .btn-danger {
-      background-color: #dc3545;
-      color: #fff;
-    }
-
-    .btn-success {
-      background-color: #28a745;
-      color: #fff;
-    }
-
-    .btn-outline-dark {
-      border: 1px solid #343a40;
-      color: #343a40;
-    }
-
-    .btn:hover {
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Starability Rating */
-    .starability-result {
-      font-size: 1.5rem;
-      color: #ffca28;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .listing-title {
-        font-size: 1.5rem;
-      }
-    }
-  </style>
 </body>
