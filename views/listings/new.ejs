@@ -17,7 +17,6 @@
 <div class="mb-4">
   <label for="description" class="form-label">Description</label>
   <textarea id="description" name="listing[description]" placeholder="Enter description" class="form-control shadow-sm" required></textarea>
-  <button type="button" id="generate-description" class="btn btn-secondary mt-2">Generate Description</button>
   <div class="invalid-feedback">Please enter a short description.</div>
 </div>
 
@@ -139,30 +138,5 @@
   </style>
 
 </body>
-<script>
-  document.getElementById("generate-btn").addEventListener("click", async (e) => {
-  e.preventDefault();
 
-  const title = document.getElementById("title").value;
-  const location = document.getElementById("location").value;
-  const price = document.getElementById("price").value;
-
-  if (!title || !location || !price) {
-    alert("Please fill in Title, Location, and Price before generating.");
-    return;
-  }
-
-  const res = await fetch("/ai/generate", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ title, location, price }),
-  });
-
-  const data = await res.json();
-  document.getElementById("description").value = data.description;
-});
-
-</script>
 
