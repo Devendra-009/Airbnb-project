@@ -10,6 +10,8 @@ const listingController = require("../controllers/listings.js");
 const multer = require("multer");
 const { storage } = require("../cloudConfig.js");
 const upload = multer({ storage });
+const { generateDescription } = require('../utils/ai');
+
 
 // Get or create route
 router.route("/")
@@ -86,5 +88,18 @@ router.get("/:id/book", async (req, res) => {
         res.redirect("/listings");
     }
 });
+
+router.post('/ai/generate-description', async (req, res) => {
+  const { title, location, price } = req.body;
+  try {
+    const description = await generateDescription(title, location, price);
+    res.json({ description });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to generate description' });
+  }
+});
+
+  
 
 module.exports = router;

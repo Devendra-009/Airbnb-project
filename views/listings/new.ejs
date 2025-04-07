@@ -9,16 +9,18 @@
       <!-- Title -->
       <div class="mb-4">
         <label for="title" class="form-label">Title</label>
-        <input name="listing[title]" placeholder="Enter title" type="text" class="form-control shadow-sm" required />
+        <input id="title" name="listing[title]" placeholder="Enter title" type="text" class="form-control shadow-sm" required />
         <div class="valid-feedback">Title looks good!</div>
       </div>
 
       <!-- Description -->
-      <div class="mb-4">
-        <label for="description" class="form-label">Description</label>
-        <textarea name="listing[description]" placeholder="Enter description" class="form-control shadow-sm" required></textarea>
-        <div class="invalid-feedback">Please enter a short description.</div>
-      </div>
+<div class="mb-4">
+  <label for="description" class="form-label">Description</label>
+  <textarea id="description" name="listing[description]" placeholder="Enter description" class="form-control shadow-sm" required></textarea>
+  <button type="button" id="generate-description" class="btn btn-secondary mt-2">Generate Description</button>
+  <div class="invalid-feedback">Please enter a short description.</div>
+</div>
+
 
       <!-- Image Upload -->
       <div class="mb-4">
@@ -30,7 +32,7 @@
       <div class="row">
         <div class="col-md-4 mb-4">
           <label for="price" class="form-label">Price (₹)</label>
-          <input name="listing[price]" placeholder="Enter price" class="form-control shadow-sm" required />
+          <input id="price" name="listing[price]" placeholder="Enter price" class="form-control shadow-sm" required />
           <div class="invalid-feedback">Price should be valid.</div>
         </div>
         <div class="col-md-8 mb-4">
@@ -43,7 +45,7 @@
       <!-- Location -->
       <div class="mb-4">
         <label for="location" class="form-label">Location</label>
-        <input name="listing[location]" placeholder="Enter location" type="text" class="form-control shadow-sm" required />
+        <input id="location" name="listing[location]" placeholder="Enter location" type="text" class="form-control shadow-sm" required />
         <div class="invalid-feedback">Location should be valid.</div>
       </div>
 
@@ -137,4 +139,30 @@
   </style>
 
 </body>
-</html>
+<script>
+  document.getElementById("generate-btn").addEventListener("click", async (e) => {
+  e.preventDefault();
+
+  const title = document.getElementById("title").value;
+  const location = document.getElementById("location").value;
+  const price = document.getElementById("price").value;
+
+  if (!title || !location || !price) {
+    alert("Please fill in Title, Location, and Price before generating.");
+    return;
+  }
+
+  const res = await fetch("/ai/generate", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ title, location, price }),
+  });
+
+  const data = await res.json();
+  document.getElementById("description").value = data.description;
+});
+
+</script>
+
