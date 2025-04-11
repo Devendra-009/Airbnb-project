@@ -11,6 +11,7 @@ const userSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "Listing" // Reference the Listing model
     }],
+    googleId: String, 
     profileImage: { 
         type: String, // Field to store the profile image URL
         required: false // No default value

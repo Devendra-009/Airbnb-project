@@ -19,6 +19,7 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
 
 const listingsRouter = require("./routes/listing.js");
@@ -27,7 +28,7 @@ const userRouter = require("./routes/user.js");
 const favoriteRoutes = require("./routes/favorites.js");
 const Booking = require("./models/booking.js");
 const bookingRoutes = require("./routes/bookings");
-
+const googleAuthRoutes = require("./routes/auth.js");
 
 main()
   .then(() => {
@@ -82,6 +83,33 @@ app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 
+
+
+passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: process.env.GOOGLE_CALLBACK_URL,
+  },
+  async function (accessToken, refreshToken, profile, cb) {
+    try {
+      const existingUser = await User.findOne({ googleId: profile.id });
+      if (existingUser) return cb(null, existingUser);
+
+      const newUser = new User({
+        googleId: profile.id,
+        username: profile.displayName,
+        email: profile.emails[0].value,
+        profileImage: profile.photos[0].value
+      });
+
+      await newUser.save();
+      return cb(null, newUser);
+    } catch (err) {
+      return cb(err);
+    }
+  }
+));
+
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
@@ -110,6 +138,7 @@ app.get("/demouser", async (req, res) => {
   app.use("/",userRouter);
   app.use("/favorites", favoriteRoutes);
   app.use("/bookings", bookingRoutes);
+  app.use("/", googleAuthRoutes);
 
   
 
