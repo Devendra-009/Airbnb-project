@@ -86,29 +86,31 @@ passport.use(new LocalStrategy(User.authenticate()));
 
 
 passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: process.env.GOOGLE_CALLBACK_URL,
-  },
-  async function (accessToken, refreshToken, profile, cb) {
-    try {
-      const existingUser = await User.findOne({ googleId: profile.id });
-      if (existingUser) return cb(null, existingUser);
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  callbackURL: "/auth/google/callback"
+},
+async function(accessToken, refreshToken, profile, done) {
+  try {
+    let user = await User.findOne({ googleId: profile.id });
 
-      const newUser = new User({
-        googleId: profile.id,
+    if (!user) {
+      user = new User({
         username: profile.displayName,
         email: profile.emails[0].value,
-        profileImage: profile.photos[0].value
+        googleId: profile.id,
+        profileImage: profile.photos[0].value,
       });
-
-      await newUser.save();
-      return cb(null, newUser);
-    } catch (err) {
-      return cb(err);
+      await user.save();
     }
+
+    return done(null, user);
+  } catch (err) {
+    return done(err);
   }
-));
+}));
+
+
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
@@ -140,7 +142,6 @@ app.get("/demouser", async (req, res) => {
   app.use("/bookings", bookingRoutes);
   app.use("/", googleAuthRoutes);
 
-  
 
 // Middlewares
 app.all("*", (req, res, next) => {

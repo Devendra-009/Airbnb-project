@@ -19,6 +19,34 @@ router
   .get(userController.renderSignupForm)
   .post(wrapAsync(userController.signup));
 
+
+  // SIGNUP ROUTE
+router.post("/signup", wrapAsync(async (req, res, next) => {
+  const { username, email, password } = req.body;
+
+  // Email format check
+  const emailPattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+  if (!emailPattern.test(email)) {
+    req.flash("error", "Invalid email format.");
+    return res.redirect("/signup");
+  }
+
+  // Check if email already exists
+  const existingUser = await User.findOne({ email });
+  if (existingUser) {
+    req.flash("error", "Email already registered. Try logging in.");
+    return res.redirect("/signup");
+  }
+
+  const newUser = new User({ email, username });
+  const registeredUser = await User.register(newUser, password);
+  req.login(registeredUser, (err) => {
+    if (err) return next(err);
+    req.flash("success", "Welcome to ExploreLust!");
+    res.redirect("/listings");
+  });
+}));
+
 // Login Route
 router
   .route("/login")
