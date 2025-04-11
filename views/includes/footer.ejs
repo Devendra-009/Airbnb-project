@@ -1,102 +1,123 @@
-<footer class="footer bg-light text-dark py-4">
-  <div class="container">
-    <div class="row">
-      <!-- Social Media Icons -->
-      <div class="col-md-4 d-flex justify-content-center mb-3 mb-md-0">
-        <div class="foot-info-socials">
-          <a href="#" class="social-icon me-3">
-            <i class="fa-brands fa-facebook"></i>
-          </a>
-          <a href="#" class="social-icon me-3">
-            <i class="fa-brands fa-instagram"></i>
-          </a>
-          <a href="#" class="social-icon">
-            <i class="fa-brands fa-linkedin"></i>
-          </a>
+<footer class="footer text-white pt-5 pb-4">
+  <div class="container text-md-left">
+    <div class="row text-md-left">
+
+      <!-- Brand & Description -->
+      <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+        <h5 class="text-uppercase mb-4 font-weight-bold text-primary">ExploreLust</h5>
+        <p>
+          Discover your next favorite stay with ExploreLust. Whether it’s cozy homes, luxury villas, or unique destinations — we help you explore effortlessly.
+        </p>
+        <div class="d-flex mt-3">
+          <a href="#" class="me-3 social-icon"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="me-3 social-icon"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
         </div>
       </div>
 
-      <!-- Copyright -->
-      <div class="col-md-4 d-flex justify-content-center align-items-center mb-3 mb-md-0">
-        <div>&copy; <strong>ExploreLust Private Limited</strong></div>
+      <!-- Quick Links -->
+      <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+        <h5 class="text-uppercase mb-4 font-weight-bold text-primary">Quick Links</h5>
+        <p><a href="/listings" class="footer-link">Browse Listings</a></p>
+        <p><a href="/listings/new" class="footer-link">Add Listing</a></p>
+        <p><a href="/listings/my-listings" class="footer-link">My Listings</a></p>
+        <p><a href="/favorites" class="footer-link">Favorites</a></p>
       </div>
 
-      <!-- Footer Links -->
-      <div class="col-md-4 d-flex justify-content-center">
-        <div class="foot-info-links">
-          <a href="/privacy" class="footer-link">Privacy</a>
-          <span class="mx-2">·</span>
-          <a href="/terms" class="footer-link">Terms</a>
-          <span class="mx-2">·</span>
-          <a href="/sitemap" class="footer-link">Sitemap</a>
-          <span class="mx-2">·</span>
-          <a href="/company-details" class="footer-link">Company Details</a>
-        </div>
+      <!-- Useful Links -->
+      <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+        <h5 class="text-uppercase mb-4 font-weight-bold text-primary">Info</h5>
+        <p><a href="/privacy" class="footer-link">Privacy Policy</a></p>
+        <p><a href="/terms" class="footer-link">Terms & Conditions</a></p>
+        <p><a href="/sitemap" class="footer-link">Sitemap</a></p>
+        <p><a href="/company-details" class="footer-link">Company Info</a></p>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+        <h5 class="text-uppercase mb-4 font-weight-bold text-primary">Contact</h5>
+        <p><i class="fas fa-home me-3"></i> Indore, MP, India</p>
+        <p><i class="fas fa-envelope me-3"></i> support@explorelust.com</p>
+        <p><i class="fas fa-phone me-3"></i> +91 12345 67890</p>
+        <p><i class="fas fa-clock me-3"></i> Mon - Sat: 9am - 6pm</p>
+      </div>
+    </div>
+
+    <hr class="mb-4 mt-4">
+
+    <!-- Newsletter -->
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-6">
+        <form action="/subscribe" method="POST" class="input-group">
+          <input type="email" class="form-control rounded-0" placeholder="Subscribe to our newsletter" name="email" required>
+          <button class="btn btn-primary rounded-0" type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="row mt-4">
+      <div class="col-md-12 text-center">
+        <p class="mb-0">&copy; <%= new Date().getFullYear() %> <strong>ExploreLust Pvt Ltd</strong> | All rights reserved.</p>
       </div>
     </div>
   </div>
 </footer>
 
+
 <!-- Additional CSS -->
 <style>
-  /* General Footer Styles */
   .footer {
-    background-color: #f8f9fa;
-    color: #343a40;
+    background: #222;
+    color: #ccc;
+    font-size: 0.95rem;
   }
 
-  .foot-info-socials i {
-    font-size: 1.5rem;
-    color: #007bff;
-    transition: color 0.3s ease;
-  }
-
-  .foot-info-socials i:hover {
-    color: #0056b3;
+  .footer h5 {
+    color: #fff;
   }
 
   .footer-link {
-    color: #343a40;
+    color: #ccc;
     text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s ease;
+    transition: color 0.3s;
   }
 
   .footer-link:hover {
-    color: #007bff;
-  }
-
-  .foot-info-links span {
-    font-size: 1.1rem;
-  }
-
-  .footer .container {
-    max-width: 1140px;
-  }
-
-  /* Responsiveness */
-  @media (max-width: 767px) {
-    .footer .row {
-      text-align: center;
-    }
-
-    .foot-info-socials {
-      margin-bottom: 1.5rem;
-    }
-
-    .foot-info-links {
-      margin-top: 1.5rem;
-    }
+    color: #0d6efd;
+    text-decoration: underline;
   }
 
   .social-icon {
-    display: inline-block;
-    font-size: 1.75rem;
-    color: #343a40;
-    transition: color 0.3s ease;
+    color: #ccc;
+    font-size: 1.4rem;
+    transition: color 0.3s;
   }
 
   .social-icon:hover {
-    color: #007bff;
+    color: #0d6efd;
+  }
+
+  .footer .form-control {
+    border-radius: 0;
+  }
+
+  .footer .btn-primary {
+    border-radius: 0;
+    background-color: #007bff;
+    border: none;
+  }
+
+  .footer .btn-primary:hover {
+    background-color: #0056b3;
+  }
+
+  @media (max-width: 768px) {
+    .footer .col-md-3,
+    .footer .col-md-2,
+    .footer .col-md-4 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
   }
 </style>

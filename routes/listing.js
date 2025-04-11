@@ -25,6 +25,17 @@ router.route("/")
 // New Route
 router.get("/new", isLoggedIn, listingController.renderNewForm);
 
+
+// My Listings Route
+router.get("/my-listings", isLoggedIn, async (req, res) => {
+    try {
+      const listings = await Listing.find({ owner: req.user._id });
+      res.render("listings/myListings.ejs", { listings });
+    } catch (err) {
+      console.error(err);
+      res.status(500).send("Something went wrong.");
+    }
+  });
 // Show, update, delete routes
 router.route("/:id")
     .get(wrapAsync(listingController.showListing))
@@ -89,6 +100,7 @@ router.get("/:id/book", async (req, res) => {
 });
 
 
+  
   
 
 module.exports = router;
