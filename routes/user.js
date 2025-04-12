@@ -6,7 +6,7 @@ const passport = require("passport");
 const { saveRedirectUrl, isLoggedIn } = require("../middleware.js");
 const multer = require("multer");  // Import multer
 const { uploadToCloudinary } = require('../controllers/users'); // Make sure this function exists if you're using it
-
+const sendWelcomeEmail = require("../utils/sendEmail");
 const userController = require("../controllers/users.js");
 
 // Multer setup for file upload
@@ -86,5 +86,27 @@ router.post(
   upload,  // Multer middleware for file upload
   wrapAsync(userController.updateSettings)  // Controller function to update user settings
 );
+
+
+// After successful registration:
+router.post("/register", async (req, res) => {
+  try {
+    const { username, email, password } = req.body;
+    const user = new User({ username, email });
+    const registeredUser = await User.register(user, password);
+
+    await sendWelcomeEmail(email, username);
+
+    req.login(registeredUser, (err) => {
+      if (err) return next(err);
+      req.flash("success", "Welcome to ExploreLust!");
+      res.redirect("/listings");
+    });
+  } catch (e) {
+    req.flash("error", e.message);
+    res.redirect("/register");
+  }
+});
+
 
 module.exports = router;

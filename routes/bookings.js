@@ -2,14 +2,15 @@ const express = require("express");
 const router = express.Router();
 const Booking = require("../models/booking.js");
 const Listing = require("../models/listing.js");
-const { isLoggedIn } = require("../middleware.js"); // Ensure user is logged in
+const { isLoggedIn } = require("../middleware.js");
+const sendBookingConfirmation = require("../utils/mailer");
 
-// Handle booking submission
-router.post("/:id/book", async (req, res) => {
+// 📌 Handle Booking Submission
+router.post("/:id/book", isLoggedIn, async (req, res) => {
     try {
         const { checkIn, checkOut, guests } = req.body;
         const listing = await Listing.findById(req.params.id);
-        
+
         if (!listing) {
             req.flash("error", "Listing not found");
             return res.redirect("/listings");
@@ -24,10 +25,21 @@ router.post("/:id/book", async (req, res) => {
         });
 
         await booking.save();
-        req.flash("success", "Booking confirmed!");
+
+        // Send confirmation email 📧
+        if (req.user.email) {
+            await sendBookingConfirmation(
+                req.user.email,
+                req.user.username || req.user.name || "Guest",
+                listing.title,
+                `${checkIn} to ${checkOut}`
+            );
+        }
+
+        req.flash("success", "Booking confirmed! A confirmation email has been sent.");
         res.redirect("/bookings");
     } catch (err) {
-        console.error(err);
+        console.error("Booking Error:", err);
         req.flash("error", "Something went wrong.");
         res.redirect("/listings");
     }
@@ -45,7 +57,7 @@ router.get("/", isLoggedIn, async (req, res) => {
     }
 });
 
-// 📌 Cancel Booking Route
+// 📌 Cancel Booking
 router.delete("/:id/cancel", isLoggedIn, async (req, res) => {
     try {
         const booking = await Booking.findById(req.params.id);
@@ -55,7 +67,6 @@ router.delete("/:id/cancel", isLoggedIn, async (req, res) => {
             return res.redirect("/bookings");
         }
 
-        // Ensure only the booking owner can cancel
         if (!booking.user.equals(req.user._id)) {
             req.flash("error", "You are not authorized to cancel this booking.");
             return res.redirect("/bookings");
