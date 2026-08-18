@@ -135,11 +135,14 @@ app.use(limiter);
 ========================================================= */
 
 app.get("/api/health", (req, res) => {
-    res.status(200).json({
+    res.json({
         success: true,
-        message: "ExploreLust API is running",
-        environment: process.env.NODE_ENV || "development"
+        message: "ExploreLust API is running"
     });
+});
+
+app.get("/favicon.ico", (req, res) => {
+    res.status(204).end();
 });
 
 
