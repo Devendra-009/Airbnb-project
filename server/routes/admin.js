@@ -1,0 +1,10 @@
+import { Router } from "express";
+import { protect, adminOnly } from "../middleware/auth.js";
+import { stats, users, bookings, deleteUser } from "../controllers/adminController.js";
+const router = Router();
+router.use(protect, adminOnly);
+router.get("/stats", stats);
+router.get("/users", users);
+router.get("/bookings", bookings);
+router.delete("/users/:id", deleteUser);
+export default router;

@@ -1,0 +1,14 @@
+import { Router } from "express";
+import { protect } from "../middleware/auth.js";
+import { upload } from "../middleware/upload.js";
+import { getListings, getListing, createListing, updateListing, deleteListing, myListings, toggleFavorite, getFavorites } from "../controllers/listingController.js";
+const router = Router();
+router.get("/", getListings);
+router.get("/mine", protect, myListings);
+router.get("/favorites", protect, getFavorites);
+router.get("/:id", getListing);
+router.post("/", protect, upload.array("images", 8), createListing);
+router.put("/:id", protect, upload.array("images", 8), updateListing);
+router.delete("/:id", protect, deleteListing);
+router.post("/:id/favorite", protect, toggleFavorite);
+export default router;
