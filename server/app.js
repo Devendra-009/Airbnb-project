@@ -15,21 +15,17 @@ import { errorHandler, notFound } from "./middleware/error.js";
 const app = express();
 const allowedOrigins = [
     "http://localhost:5173",
-    "https://yataroom.onrender.com"
-];
+    process.env.CLIENT_URL
+].filter(Boolean);
 app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
 app.use(
     cors({
         origin: function (origin, callback) {
-            // Allow requests without an origin
-            // such as Postman/server-to-server requests
-            if (!origin) {
+            if (!origin || allowedOrigins.includes(origin)) {
                 return callback(null, true);
             }
 
-            if (allowedOrigins.includes(origin)) {
-                return callback(null, true);
-            }
+            console.log("❌ Blocked CORS origin:", origin);
 
             return callback(new Error("Not allowed by CORS"));
         },
